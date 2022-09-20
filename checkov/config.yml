@@ -1,10 +1,10 @@
 directory:
   - deploy/
-skip_check:
+skip-check:
   - CKV_AZURE_1
 quiet: true
-soft_fail: true
+soft-fail: true
 output_format: junitxml
 framework: bicep
-log_level: WARNING
+log-level: WARNING
 external-checks-git: https://github.com/SebastianGredal/shared-checkov-policies.git//checks/bicep
