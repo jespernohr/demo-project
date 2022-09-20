@@ -1,10 +1,7 @@
-directory:
-  - deploy/
 skip-check:
   - CKV_AZURE_1
 quiet: true
 soft-fail: true
-output: junitxml
-output-file-path: checkov.xml
+output-file-path: tests
 framework: bicep
 external-checks-git: https://github.com/SebastianGredal/shared-checkov-policies.git//checks/bicep

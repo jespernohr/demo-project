@@ -34,16 +34,16 @@ jobs:
         # uses: bridgecrewio/checkov-action@99bb2caf247dfd9f03cf984373bc6043d4e32ebf
         uses: bridgecrewio/checkov-action@master
         with:
-          config_file: checkov/config.yml
           # directory with infrastructure code to scan
-          #directory: deploy/
+          directory: deploy/
+          # the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          output_format: junitxml
+          config_file: checkov/config.yml
           #skip_check: CKV_AZURE_1
           # display only failed checks
           #quiet: true
           # do not return an error code if there are failed checks
           #soft_fail: true
-          # the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
-          #output_format: junitxml
           # run only on a specific infrastructure
           #framework: bicep
           # log level
