@@ -49,7 +49,7 @@ jobs:
           # log level
           #log_level: WARNING
       
-      #- run: echo $CHECKOV_RESULTS >> checkov.xml
+      - run: echo $CHECKOV_RESULTS >> checkov.xml
       
       - name: Publish Unit Test Results
         id: test-results
