@@ -4,7 +4,6 @@ skip-check:
   - CKV_AZURE_1
 quiet: true
 soft-fail: true
-output-format: junitxml
+output: junitxml
 framework: bicep
-log-level: WARNING
 external-checks-git: https://github.com/SebastianGredal/shared-checkov-policies.git//checks/bicep
