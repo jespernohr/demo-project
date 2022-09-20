@@ -4,6 +4,8 @@ name: Integration
 
 # Controls when the workflow will run
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -54,7 +56,7 @@ jobs:
         if: always()
         with:
           # File patterns of test result files. Supports *, **, ?, and []. Use multiline string for multiple patterns.
-          files: "**/checkov.xml"
+          junit_files: "**/checkov.xml"
       
       - name: Set badge color
         shell: bash
