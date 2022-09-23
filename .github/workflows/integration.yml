@@ -36,17 +36,18 @@ jobs:
         with:
           # directory with infrastructure code to scan
           directory: deploy/
-          skip_check: CKV_AZURE_1
-          # display only failed checks
-          quiet: true
-          # do not return an error code if there are failed checks
-          soft_fail: true
           # the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
           output_format: junitxml
+          config_file: checkov/config.yml
+          #skip_check: CKV_AZURE_1
+          # display only failed checks
+          #quiet: true
+          # do not return an error code if there are failed checks
+          #soft_fail: true
           # run only on a specific infrastructure
-          framework: bicep
+          #framework: bicep
           # log level
-          log_level: WARNING
+          #log_level: WARNING
       
       - run: echo $CHECKOV_RESULTS >> checkov.xml
       
