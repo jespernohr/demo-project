@@ -1,0 +1,25 @@
+name: Deployment
+
+on: [workflow_dispatch]
+
+env:
+  location: westeurope
+
+jobs:
+  Deployment:
+    name: Deployment of Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZ_CREDS }}
+      - name: Bicep IaC - validation
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: Validation-${{ github.run_number }}
+          deploymentMode: Validate
+          scope: subscription
+          region: ${{ env.location }}
+          template: deploy/main.bicep
