@@ -22,4 +22,4 @@ jobs:
           deploymentMode: Validate
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/main.bicep
+          template: deploy/resourceGroup.bicep
