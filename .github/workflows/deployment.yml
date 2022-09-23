@@ -27,7 +27,6 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           deploymentName: what-if-${{ github.run_number }}
-          deploymentMode: Incremental
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
@@ -36,7 +35,6 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           deploymentName: deployment-${{ github.run_number }}
-          deploymentMode: Incremental
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
