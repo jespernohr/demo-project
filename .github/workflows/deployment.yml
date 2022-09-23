@@ -38,4 +38,3 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          additionalArguments: "--rollback-on-error"
