@@ -12,7 +12,7 @@ env:
 jobs:      
   dev:
     name: Deployment to Dev Environment
-    environment: ${{ inputs.environment }}
+    environment: dev
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,6 +47,7 @@ jobs:
           parameters: environment="dev" environmentVersion="${{ github.run_number }}"
           template: deploy/resourceGroup.bicep
   prod:
+    needs: [dev]
     name: Deployment to Prod Environment
     environment: prod
     runs-on: ubuntu-latest
