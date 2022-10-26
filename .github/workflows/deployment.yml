@@ -28,7 +28,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          
+          parameters: tags='{"environment":"dev", "environmentVersion":"${{ github.run_number }}"}'
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
