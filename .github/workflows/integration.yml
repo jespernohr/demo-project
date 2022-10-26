@@ -20,7 +20,25 @@ permissions:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  Validation:
+  validate-bicep:
+    name: Deployment to Dev Environment
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZ_CREDS }}
+      - name: Bicep IaC - validation
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: Validation-${{ github.run_number }}
+          deploymentMode: Validate
+          scope: subscription
+          region: ${{ env.location }}
+          template: deploy/resourceGroup.bicep
+  code-test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
