@@ -1,1 +1,17 @@
+name: Test
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:      
+  dev:
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      environment: dev
+  prod:
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      environment: prod
