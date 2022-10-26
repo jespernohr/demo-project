@@ -11,6 +11,9 @@ permissions:
   checks: write
   pull-requests: write
 
+env:
+  location: westeurope
+
 jobs:
   validate-bicep:
     name: Validate Bicep Files
