@@ -1,18 +1,19 @@
 name: Deployment
 
 on:
-  push:
-    branches: 
-      - main
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
 
 env:
   location: westeurope
 
-jobs:
-  dev:
-    name: Deployment to Dev Environment
-    environment: dev
+jobs:      
+  deploy:
+    name: Deployment to ${{ inputs.environment }} Environment
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,7 +29,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          parameters: environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
@@ -36,7 +37,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          parameters: environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
           additionalArguments: "--what-if"
       - name: Bicep IaC - Deployment
         uses: azure/arm-deploy@v1
@@ -44,39 +45,5 @@ jobs:
           deploymentName: deployment-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
-          template: deploy/resourceGroup.bicep
-  prod:
-    name: Deployment to Prod Environment
-    environment: prod
-    runs-on: ubuntu-latest
-    needs: [dev]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZ_CREDS }}
-      - name: Bicep IaC - validation
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: Validation-${{ github.run_number }}
-          deploymentMode: Validate
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-      - name: Bicep IaC - what if
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: what-if-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          additionalArguments: "--what-if"
-      - name: Bicep IaC - Deployment
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: deployment-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
+          parameters: environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
           template: deploy/resourceGroup.bicep
