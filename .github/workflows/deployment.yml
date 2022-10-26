@@ -28,7 +28,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          parameters: tags='{"environment":"dev", "environmentVersion":"${{ github.run_number }}"}'
+          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
@@ -36,7 +36,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/resourceGroup.bicep
-          parameters: tags='{"environment":"dev", "environmentVersion":"${{ github.run_number }}"}'
+          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
           additionalArguments: "--what-if"
       - name: Bicep IaC - Deployment
         uses: azure/arm-deploy@v1
@@ -44,7 +44,7 @@ jobs:
           deploymentName: deployment-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          parameters: tags='{"environment":"dev", "environmentVersion":"${{ github.run_number }}"}'
+          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
           template: deploy/resourceGroup.bicep
   prod:
     name: Deployment to Prod Environment
