@@ -45,7 +45,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
-          template: deploy/resourceGroup.bicep
+          template: deploy/deploy.bicep
   prod:
     needs: [dev]
     name: Deployment to Prod Environment
