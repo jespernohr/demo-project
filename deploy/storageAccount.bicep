@@ -2,7 +2,6 @@ param storageAccountName string
 param location string
 param sku string = 'Standard_LRS'
 param kind string = 'StorageV2'
-param disablePublicAccess bool = true
 
 resource sa 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageAccountName
@@ -13,10 +12,10 @@ resource sa 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   kind: kind
   properties: {
     accessTier: 'Hot'
-    allowBlobPublicAccess: disablePublicAccess ? false : true
-    publicNetworkAccess: disablePublicAccess ? 'Disabled' : 'Enabled'
+    allowBlobPublicAccess: false
+    publicNetworkAccess: 'Disabled'
     networkAcls: {
-      defaultAction: disablePublicAccess ? 'Deny' : 'Allow'
+      defaultAction: 'Deny'
       bypass: 'AzureServices'
     }
   }
