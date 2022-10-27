@@ -27,16 +27,16 @@ jobs:
           deploymentMode: Validate
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep
+          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
           deploymentName: what-if-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep
+          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
           additionalArguments: "--what-if"
       - name: Bicep IaC - Deployment
         uses: azure/arm-deploy@v1
@@ -64,16 +64,16 @@ jobs:
           deploymentMode: Validate
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          parameters: environment="prod" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep
+          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
           deploymentName: what-if-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          parameters: environment="prod" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep
+          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
           additionalArguments: "--what-if"
       - name: Bicep IaC - Deployment
         uses: azure/arm-deploy@v1
