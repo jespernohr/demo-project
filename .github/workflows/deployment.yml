@@ -44,7 +44,7 @@ jobs:
           deploymentName: deployment-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
           template: deploy/resourceGroup.bicep
   prod:
     needs: [dev]
@@ -81,5 +81,5 @@ jobs:
           deploymentName: deployment-${{ github.run_number }}
           scope: subscription
           region: ${{ env.location }}
-          parameters: environment="prod" environmentVersion="${{ github.run_number }}"
+          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
           template: deploy/resourceGroup.bicep
