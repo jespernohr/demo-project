@@ -14,6 +14,10 @@ resource sa 'Microsoft.Storage/storageAccounts@2022-05-01' = {
     accessTier: 'Hot'
     allowBlobPublicAccess: false
     publicNetworkAccess: 'Disabled'
+    networkAcls: {
+      defaultAction: 'Deny'
+      bypass: 'AzureServices'
+    }
   }
 }
 

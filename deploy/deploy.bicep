@@ -46,7 +46,7 @@ module logAnalytics 'logAnalyticsWorkspace.bicep' = {
 }
 
 module virtualNetwork 'virtualNetworks.bicep' = {
-  name: 'sharedServicesVirtualNetwork'
+  name: 'VirtualNetwork'
   scope: rgNetwork
   params: {
     logAnalyticsId: logAnalytics.outputs.workspaceId
