@@ -10,9 +10,9 @@ env:
   location: westeurope
 
 jobs:      
-  dev:
+  development:
     name: Deployment to Dev Environment
-    environment: dev
+    environment: development
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,10 +46,10 @@ jobs:
           region: ${{ env.location }}
           parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
           template: deploy/deploy.bicep
-  prod:
-    needs: [dev]
+  production:
+    needs: [development]
     name: Deployment to Prod Environment
-    environment: prod
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
