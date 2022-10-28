@@ -1,1 +1,26 @@
+name: Deployment
 
+on:
+  workflow_dispatch:
+
+env:
+  location: westeurope
+
+jobs:
+  deploy_development:
+    name: Deploy to Development
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      location: westeurope
+      environment: development
+      parameterFile: deploy/deploy.development.parameters.json
+    secrets: inherit
+  deploy_production:
+    needs: [deploy_development]
+    name: Deploy to Production
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      location: westeurope
+      environment: development
+      parameterFile: deploy/deploy.development.parameters.json
+    secrets: inherit
