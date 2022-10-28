@@ -9,7 +9,7 @@ env:
 jobs:
   deploy_development:
     name: Deploy to Development
-    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    uses: SebastianGredal/demo-project/.github/workflows/reusableWorkflow.yml@main
     with:
       location: westeurope
       environment: development
@@ -18,7 +18,7 @@ jobs:
   deploy_production:
     needs: [deploy_development]
     name: Deploy to Production
-    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    uses: SebastianGredal/demo-project/.github/workflows/reusableWorkflow.yml@main
     with:
       location: westeurope
       environment: production
