@@ -33,7 +33,7 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           template: deploy/deploy.bicep
-          parameters: deploy.development.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
+          parameters: deploy/deploy.development.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
   code-test:
     runs-on: ubuntu-latest
     steps:
