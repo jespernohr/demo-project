@@ -21,6 +21,6 @@ jobs:
     uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
     with:
       location: westeurope
-      environment: development
+      environment: production
       parameterFile: deploy/deploy.development.parameters.json
     secrets: inherit
