@@ -1,0 +1,53 @@
+name: reusableWorkflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      location:
+        required: true
+        type: string
+      parameterFile:
+        required: true
+        description: Path to parameter file
+        type: string
+
+jobs:      
+  deploy:
+    name: Deployment to ${{ inputs.environment }} Environment
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZ_CREDS }}
+      - name: Bicep IaC - validation
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: deployment-validation-${{ github.run_number }}
+          deploymentMode: Validate
+          scope: subscription
+          region: ${{ inputs.location }}
+          template: deploy/deploy.bicep
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+      - name: Bicep IaC - what if
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: deployment-what-if-${{ github.run_number }}
+          scope: subscription
+          region: ${{ inputs.location }}
+          template: deploy/deploy.bicep
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+          additionalArguments: "--what-if"
+      - name: Bicep IaC - Deployment
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: deployment-${{ github.run_number }}
+          scope: subscription
+          region: ${{ inputs.location }}
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep

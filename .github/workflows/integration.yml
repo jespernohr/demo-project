@@ -32,8 +32,8 @@ jobs:
           deploymentMode: Validate
           scope: subscription
           region: ${{ env.location }}
-          template: deploy/resourceGroup.bicep
-          parameters: environment="dev" environmentVersion="${{ github.run_number }}"
+          template: deploy/deploy.bicep
+          parameters: deploy/deploy.development.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
   code-test:
     runs-on: ubuntu-latest
     steps:

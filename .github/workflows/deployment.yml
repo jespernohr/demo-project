@@ -1,85 +1,26 @@
 name: Deployment
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 env:
   location: westeurope
 
-jobs:      
-  development:
-    name: Deployment to Dev Environment
-    environment: development
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZ_CREDS }}
-      - name: Bicep IaC - validation
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: Validation-${{ github.run_number }}
-          deploymentMode: Validate
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/deploy.bicep
-          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
-      - name: Bicep IaC - what if
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: what-if-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/deploy.bicep
-          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
-          additionalArguments: "--what-if"
-      - name: Bicep IaC - Deployment
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: deployment-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
-          parameters: deploy/deploy.parameters.json environment="dev" environmentVersion="${{ github.run_number }}"
-          template: deploy/deploy.bicep
-  production:
-    needs: [development]
-    name: Deployment to Prod Environment
-    environment: production
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZ_CREDS }}
-      - name: Bicep IaC - validation
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: Validation-${{ github.run_number }}
-          deploymentMode: Validate
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/deploy.bicep
-          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
-      - name: Bicep IaC - what if
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: what-if-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
-          template: deploy/deploy.bicep
-          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
-          additionalArguments: "--what-if"
-      - name: Bicep IaC - Deployment
-        uses: azure/arm-deploy@v1
-        with:
-          deploymentName: deployment-${{ github.run_number }}
-          scope: subscription
-          region: ${{ env.location }}
-          parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
-          template: deploy/deploy.bicep
+jobs:
+  deploy_development:
+    name: Deploy to Development
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      location: westeurope
+      environment: development
+      parameterFile: deploy/deploy.development.parameters.json
+    secrets: inherit
+  deploy_production:
+    needs: [deploy_development]
+    name: Deploy to Production
+    uses: SebastianGredal/demo-project/.github/workflows/deployment.yml@main
+    with:
+      location: westeurope
+      environment: production
+      parameterFile: deploy/deploy.development.parameters.json
+    secrets: inherit
