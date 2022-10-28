@@ -82,4 +82,4 @@ jobs:
           scope: subscription
           region: ${{ env.location }}
           parameters: deploy/deploy.parameters.json environment="prod" environmentVersion="${{ github.run_number }}"
-          template: deploy/resourceGroup.bicep
+          template: deploy/deploy.bicep
