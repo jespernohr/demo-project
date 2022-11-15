@@ -31,26 +31,26 @@ jobs:
       - name: Bicep IaC - validation
         uses: azure/arm-deploy@v1
         with:
-          deploymentName: deployment-validation-${{ github.run_number }}
+          deploymentName: deployment-validation-${{ env.environmentVersion }}
           deploymentMode: Validate
           scope: subscription
           region: ${{ inputs.location }}
           template: deploy/deploy.bicep
-          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ env.environmentVersion }}"
       - name: Bicep IaC - what if
         uses: azure/arm-deploy@v1
         with:
-          deploymentName: deployment-what-if-${{ github.run_number }}
+          deploymentName: deployment-what-if-${{ env.environmentVersion }}
           scope: subscription
           region: ${{ inputs.location }}
           template: deploy/deploy.bicep
-          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ env.environmentVersion }}"
           additionalArguments: "--what-if"
       - name: Bicep IaC - Deployment
         uses: azure/arm-deploy@v1
         with:
-          deploymentName: deployment-${{ github.run_number }}
+          deploymentName: deployment-${{ env.environmentVersion }}
           scope: subscription
           region: ${{ inputs.location }}
-          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ github.run_number }}"
+          parameters: ${{ inputs.parameterFile }} environment="${{ inputs.environment }}" environmentVersion="${{ env.environmentVersion }}"
           template: deploy/deploy.bicep
