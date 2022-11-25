@@ -23,7 +23,7 @@ resource rgNetwork 'Microsoft.Resources/resourceGroups@2021-04-01' = {
     environmentVersion: environmentVersion
   }
 }
-// asdfasdf
+
 resource rgStorage 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-storage'
   location: location
